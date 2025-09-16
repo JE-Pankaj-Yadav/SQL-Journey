@@ -1,54 +1,27 @@
-CREATE table Employees(
+-- ===============================================================
+-- 📌 DATABASE STRUCTURE & SAMPLE DATA
+-- ===============================================================
+
+-- Employees Table
+CREATE TABLE employees (
     emp_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
+    first_name VARCHAR2(50),
+    last_name VARCHAR2(50),
     age INT,
-    department VARCHAR(50),
+    department VARCHAR2(50),
     salary DECIMAL(10,2),
-    city VARCHAR(50),
+    city VARCHAR2(50),
     joining_date DATE,
-    email VARCHAR(100)
+    email VARCHAR2(100)
 );
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (1, 'Amit', 'Sharma', 28, 'HR', 45000, 'Delhi', DATE '2022-05-10', 'amit.sharma@gmail.com');
 
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (2, 'Priya', 'Verma', 35, 'Finance', 60000, 'Mumbai', DATE '2021-08-15', 'priya.verma@yahoo.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (3, 'Rahul', 'Mehta', 40, 'IT', 75000, 'Bangalore', DATE '2020-11-01', 'rahul.mehta@company.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (4, 'Sneha', 'Patel', 30, 'Marketing', 50000, 'Delhi', DATE '2023-01-20', 'sneha.patel@gmail.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (5, 'Karan', 'Singh', 26, 'IT', 55000, 'Chennai', DATE '2023-06-10', 'karan.singh@gmail.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (6, 'Anjali', 'Nair', 31, 'Finance', 62000, 'Bangalore', DATE '2021-09-05', 'anjali.nair@hotmail.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (7, 'Vikram', 'Kapoor', 29, 'Marketing', 48000, 'Pune', DATE '2022-03-12', 'vikram.kapoor@gmail.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (8, 'Deepa', 'Rao', 45, 'HR', 70000, 'Delhi', DATE '2019-12-01', 'deepa.rao@company.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (9, 'Sahil', 'Malik', 27, 'Finance', 58000, 'Mumbai', DATE '2023-02-14', 'sahil.malik@gmail.com');
-
-INSERT INTO employees (emp_id, first_name, last_name, age, department, salary, city, joining_date, email)
-VALUES (10, 'Meena', 'Iyer', 33, 'IT', 72000, 'Bangalore', DATE '2020-07-07', 'meena.iyer@gmail.com');
-
+-- Departments Table
 CREATE TABLE departments (
     department_id INT PRIMARY KEY,
     department_name VARCHAR2(50)
 );
 
-INSERT INTO departments VALUES (1, 'HR');
-INSERT INTO departments VALUES (2, 'Finance');
-INSERT INTO departments VALUES (3, 'IT');
-INSERT INTO departments VALUES (4, 'Marketing');
-
+-- Orders Table
 CREATE TABLE orders (
     order_id INT PRIMARY KEY,
     emp_id INT,
@@ -57,201 +30,232 @@ CREATE TABLE orders (
     FOREIGN KEY (emp_id) REFERENCES employees(emp_id)
 );
 
-INSERT INTO orders VALUES (101, 1, DATE '2023-08-03', 2200);
-INSERT INTO orders VALUES (103, 2, DATE '2023-08-05', 3000);
-INSERT INTO orders VALUES (104, 3, DATE '2023-08-08', 800);
-INSERT INTO orders VALUES (105, 4, DATE '2023-08-12', 1500);
-INSERT INTO orders VALUES (106, 5, DATE '2023-08-15', 2500);
-INSERT INTO orders VALUES (107, 6, DATE '2023-08-20', 3200);
-INSERT INTO orders VALUES (108, 7, DATE '2023-08-21', 1800);
-INSERT INTO orders VALUES (109, 8, DATE '2023-08-22', 2600);
-INSERT INTO orders VALUES (110, 9, DATE '2023-08-25', 1000);
-INSERT INTO orders VALUES (102, 10, DATE '2023-08-15', 2500);
+-- (Insert statements already provided above, not repeating here)
 
+-- 1️⃣ Basic SELECT Queries
+-- 1. Select all columns from Employees.
+-- 👉 Simply fetch everything (all columns).
+SELECT * FROM employees;
 
+-- 2. Select only name and age from Employees.
+-- 👉 Use string concatenation (||) for full name.
+SELECT first_name || ' ' || last_name AS full_name, age FROM employees;
 
--- 📌 50 SQL Practice Questions for Data Science
+-- 3. Select unique department names.
+-- 👉 DISTINCT removes duplicate departments.
+SELECT DISTINCT department FROM employees;
 
--- 1. Basic SELECT Queries
-    -- 1.	Select all columns from the table Employees.
-    SELECT * FROM EMPLOYEES;
+-- 4. Select first 5 employees.
+-- 👉 FETCH FIRST limits rows.
+SELECT * FROM employees FETCH FIRST 5 ROWS ONLY;
 
-    -- 2.	Select only name and age from Students.
-    SELECT FIRST_NAME ||' ' || LAST_NAME, AGE FROM EMPLOYEES;
+-- 5. Select all employees from Delhi.
+SELECT first_name || ' ' || last_name AS full_name 
+FROM employees 
+WHERE city = 'Delhi';
 
-    -- 3.	Select unique department names from Employees.
-    SELECT DISTINCT(DEPARTMENT) FROM EMPLOYEES;
+-- 2️⃣ WHERE Clause
+-- 6. Employees with salary > 50000
+SELECT first_name || ' ' || last_name AS full_name, salary 
+FROM employees 
+WHERE salary > 50000;
 
-    -- 4.	Select the first 10 rows from Customers.
-    SELECT * FROM EMPLOYEES FETCH FIRST 5 ROWS ONLY;
+-- 7. Employees aged between 25 and 40
+SELECT first_name || ' ' || last_name AS full_name, age 
+FROM employees 
+WHERE age BETWEEN 25 AND 40;
 
-    -- 5.	Select all customers whose city is "Delhi".
-    SELECT FIRST_NAME ||' '||LAST_NAME FROM EMPLOYEES WHERE CITY='Delhi';
+-- 8. Employees joined between Jan-2022 and Jan-2023
+SELECT first_name || ' ' || last_name AS full_name, joining_date
+FROM employees
+WHERE joining_date BETWEEN TO_DATE('01-01-2022','DD-MM-YYYY') 
+                      AND TO_DATE('01-01-2023','DD-MM-YYYY');
 
--- 2. WHERE Clause
-    -- 6.	Select name with salary > 50000.  
-    SELECT FIRST_NAME||' '||lAST_NAME, SALARY FROM EMPLOYEES WHERE SALARY>50000;
+-- 9. Employees whose first name starts with 'A'
+SELECT first_name || ' ' || last_name AS full_name 
+FROM employees 
+WHERE first_name LIKE 'A%';
 
-    -- 7.	Select employees with age BETWEEN 25 AND 40.
-    SELECT FIRST_NAME||' '||lAST_NAME, AGE FROM EMPLOYEES WHERE AGE BETWEEN 25 AND 40;
+-- 10. Employees NOT from Mumbai
+SELECT first_name || ' ' || last_name AS full_name, city 
+FROM employees 
+WHERE city <> 'Mumbai';
 
-    -- 8.	Select Joining date on '01/01/22 and 01/01/23'.
-    SELECT FIRST_NAME || ' ' || LAST_NAME AS FULL_NAME, JOINING_DATE
-    FROM EMPLOYEES
-    WHERE JOINING_DATE BETWEEN TO_DATE('01-01-2022', 'DD-MM-YYYY') 
-                        AND TO_DATE('01-01-2023', 'DD-MM-YYYY');
+-- 3️⃣ ORDER BY & LIMIT
+-- 11. Employees sorted by salary (ascending)
+SELECT * FROM employees ORDER BY salary ASC;
 
-    -- 9.	Select employees whose name starts with "A".
-    SELECT FIRST_NAME || ' ' || LAST_NAME AS FULL_NAME FROM EMPLOYEES WHERE FIRST_NAME LIKE 'A%';
+-- 12. Top 5 employees with highest salary
+SELECT * FROM employees ORDER BY salary DESC FETCH FIRST 5 ROWS ONLY;
 
-    -- 10.	Select customers whose city is NOT "Mumbai".
-    SELECT FIRST_NAME || ' ' || LAST_NAME AS FULL_NAME, CITY FROM EMPLOYEES WHERE CITY <> 'Mumbai';
+-- 13. Employees sorted alphabetically by first name
+SELECT * FROM employees ORDER BY first_name;
 
--- 3. ORDER BY & LIMIT
-    -- 11.	Select all employees sorted by salary in ascending order.
-    SELECT * FROM EMPLOYEES ORDER BY SALARY;
+-- 14. Employees sorted by latest joining date
+SELECT * FROM employees ORDER BY joining_date DESC;
 
-    -- 12.	Select top 5 products with highest price.
-    SELECT * FROM EMPLOYEES ORDER BY SALARY DESC FETCH FIRST 5 ROW ONLY;
+-- 15. 3 employees with lowest salary
+SELECT * FROM employees ORDER BY salary ASC FETCH FIRST 3 ROWS ONLY;
 
-    -- 13.	Select students sorted by name alphabetically.
-    SELECT * FROM EMPLOYEES ORDER BY FIRST_NAME;
+-- 4️⃣ Aggregate Functions
+-- 16. Total number of employees
+SELECT COUNT(emp_id) AS total_employees FROM employees;
 
-    -- 14.	Select employees sorted by joining_date descending.
-    SELECT * FROM EMPLOYEES ORDER BY JOINING_DATE DESC;
+-- 17. Average salary
+SELECT AVG(salary) AS avg_salary FROM employees;
 
-    -- 15.	Select 3 customers with lowest salary amount.
-    SELECT * FROM EMPLOYEES ORDER BY SALARY FETCH FIRST 3 ROW ONLY;
+-- 18. Maximum salary & who earns it
+SELECT first_name || ' ' || last_name AS full_name, salary 
+FROM employees 
+WHERE salary = (SELECT MAX(salary) FROM employees);
 
--- 4. Aggregate Functions
-    -- 16.	Find total number of employees.
-    SELECT COUNT(EMP_ID) AS TOTAL_EMPLOYEES FROM EMPLOYEES;
+-- 19. Minimum salary & who earns it
+SELECT first_name || ' ' || last_name AS full_name, salary 
+FROM employees 
+WHERE salary = (SELECT MIN(salary) FROM employees);
 
-    -- 17.	Find average salary of employees.
-    SELECT AVG(SALARY) AS AVERAGE_SALARY FROM EMPLOYEES;
+-- 20. Total salary of all employees
+SELECT SUM(salary) AS total_salary FROM employees;
 
-    -- 18.	Find maximum salary of employees.
-    SELECT FIRST_NAME || ' ' || LAST_NAME AS FULL_NAME, SALARY AS MAX_SALARY FROM EMPLOYEES WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEES);
+-- 5️⃣ GROUP BY
+-- 21. Employee count per department
+SELECT department, COUNT(emp_id) AS total_employees 
+FROM employees 
+GROUP BY department;
 
-    -- 19.	Find minimum salary of employees.
-    SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME, SALARY AS MIN_SALARY FROM EMPLOYEES WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEES);
-    -- 20.	Find total salary.
-    SELECT SUM(SALARY) AS TOTAL_SALARY FROM EMPLOYEES;
+-- 22. Average salary per department
+SELECT department, AVG(salary) AS avg_salary 
+FROM employees 
+GROUP BY department;
 
--- 5. GROUP BY
-    -- 21.	Find number of employees in each department.
-    SELECT DEPARTMENT, COUNT(DEPARTMENT) FROM EMPLOYEES GROUP BY DEPARTMENT;
+-- 23. Employee count per city
+SELECT city, COUNT(emp_id) AS total_employees 
+FROM employees 
+GROUP BY city;
 
-    -- 22.	Find average salary per department.
-    SELECT DEPARTMENT, AVG(SALARY) FROM EMPLOYEES GROUP BY DEPARTMENT;
+-- 24. Total sales per month (from orders)
+SELECT TO_CHAR(order_date,'YYYY-MM') AS order_month, SUM(amount) AS total_sales
+FROM orders
+GROUP BY TO_CHAR(order_date,'YYYY-MM')
+ORDER BY order_month;
 
-    -- 23.	Find number of employees per city.
-    SELECT CITY, COUNT(CITY) FROM EMPLOYEES GROUP BY CITY;
+-- 25. Highest salary per department
+SELECT department, MAX(salary) AS max_salary 
+FROM employees 
+GROUP BY department
+ORDER BY max_salary DESC;
 
-    -- 24.	Find total sales per month.
-    -- ?
-    -- 25.	Find highest salary in each department.
-    SELECT DEPARTMENT, MAX(SALARY) AS MAX_SALARY FROM EMPLOYEES GROUP BY DEPARTMENT ORDER BY MAX_SALARY DESC;
+-- 6️⃣ HAVING Clause
+-- 26. Departments with more than 2 employees
+SELECT department, COUNT(emp_id) AS total_employees
+FROM employees
+GROUP BY department
+HAVING COUNT(emp_id) > 2;
 
--- 6. HAVING Clause
-    -- 26.	Find departments with more than 10 employees.
-    SELECT DEPARTMENT, COUNT(EMP_ID) AS TOTAL_EMPLOYEES
-    FROM EMPLOYEES
-    GROUP BY DEPARTMENT
-    HAVING COUNT(EMP_ID) > 2;
+-- 27. Cities where total salary > 10000
+SELECT city, SUM(salary) AS total_salary
+FROM employees
+GROUP BY city
+HAVING SUM(salary) > 10000;
 
-    -- 27.	Find cities with total salary > 10000.
-    SELECT CITY, SUM(SALARY) AS TOTAL_SALARY 
-    FROM EMPLOYEES 
-    GROUP BY CITY
-    HAVING SUM(SALARY) >10000;
+-- 28. (For categories/products table, skipped here)
 
-    -- 28.	Find categories with average price > 500.
-    -- ?
-    -- 29.	Find department groups with average salary > 48000.
-    SELECT DEPARTMENT, AVG(SALARY) AS AVG_SALARY
-    FROM EMPLOYEES
-    GROUP BY DEPARTMENT
-    HAVING AVG(SALARY) > 60000;
+-- 29. Departments with average salary > 60000
+SELECT department, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 60000;
 
-    -- 30.	Find customers who placed more than 3 orders.
-    -- ?
--- 7. Joins
-    -- 31.	Perform INNER JOIN on Orders and employees.
-    SELECT EMPLOYEES.FIRST_NAME||' '||EMPLOYEES.LAST_NAME AS FULL_NAME, EMPLOYEES.SALARY, ORDERS.order_date 
-    FROM EMPLOYEES INNER JOIN ORDERS ON EMPLOYEES.EMP_ID=ORDERS.EMP_ID;
+-- 30. Employees with more than 3 orders
+SELECT emp_id, COUNT(order_id) AS total_orders
+FROM orders
+GROUP BY emp_id
+HAVING COUNT(order_id) > 3;
 
-    -- 32.	Get all customers and their orders (LEFT JOIN).
-    SELECT ORDERS.EMP_ID, EMPLOYEES.FIRST_NAME||' '||EMPLOYEES.LAST_NAME AS FULL_NAME, EMPLOYEES.SALARY, ORDERS.ORDER_DATE 
-    FROM ORDERS LEFT JOIN EMPLOYEES ON ORDERS.EMP_ID=EMPLOYEES.EMP_ID;
+-- 7️⃣ Joins
+-- 31. INNER JOIN employees & orders
+SELECT e.first_name || ' ' || e.last_name AS full_name, e.salary, o.order_date
+FROM employees e
+INNER JOIN orders o ON e.emp_id = o.emp_id;
 
-    -- 33.	Get all orders and their customers (RIGHT JOIN).
-    SELECT ORDERS.EMP_ID, EMPLOYEES.FIRST_NAME||' '||EMPLOYEES.LAST_NAME AS FULL_NAME, EMPLOYEES.SALARY, ORDERS.ORDER_DATE 
-    FROM EMPLOYEES RIGHT JOIN ORDERS ON ORDERS.EMP_ID=EMPLOYEES.EMP_ID;
+-- 32. LEFT JOIN (all orders with employee info if exists)
+SELECT o.order_id, e.first_name || ' ' || e.last_name AS full_name, o.amount
+FROM orders o
+LEFT JOIN employees e ON o.emp_id = e.emp_id;
 
-    -- 34.	Get employees with their department names (JOIN on department_id).
-    SELECT  EMPLOYEES.FIRST_NAME||' '||EMPLOYEES.LAST_NAME AS FULL_NAME, departments.department_name
-    FROM EMPLOYEES JOIN departments ON departments.department_id=EMPLOYEES.EMP_ID;
+-- 33. RIGHT JOIN (all employees with orders if any)
+SELECT o.order_id, e.first_name || ' ' || e.last_name AS full_name, o.amount
+FROM employees e
+RIGHT JOIN orders o ON e.emp_id = o.emp_id;
 
-    -- 35.	Get products with supplier names.
-    -- ?
--- 8. Subqueries
-    -- 36.	Select employees with salary greater than average salary.
-    SELECT EMP_ID, FIRST_NAME||' '||LAST_NAME AS FULL_NAME, SALARY 
-    FROM EMPLOYEES 
-    WHERE SALARY >(SELECT AVG(SALARY) FROM EMPLOYEES);
+-- 34. Employees with their department names
+-- NOTE: Your employees table stores department NAME, not ID.
+-- To make this work, employees table should store department_id.
+SELECT e.first_name || ' ' || e.last_name AS full_name, d.department_name
+FROM employees e
+JOIN departments d ON e.department = d.department_name;
 
-    -- 37.	Select employees with salary less than average salary.
-    SELECT EMP_ID, FIRST_NAME||' '||LAST_NAME AS FULL_NAME, SALARY 
-    FROM EMPLOYEES 
-    WHERE SALARY < (SELECT AVG(SALARY) FROM EMPLOYEES);
+-- 8️⃣ Subqueries
+-- 36. Employees with salary > average salary
+SELECT emp_id, first_name || ' ' || last_name AS full_name, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
 
-    -- 38.	Select students who scored more than class average.
+-- 37. Employees with salary < average salary
+SELECT emp_id, first_name || ' ' || last_name AS full_name, salary
+FROM employees
+WHERE salary < (SELECT AVG(salary) FROM employees);
 
-    -- 39.	Select customers who made at least one order.
-    -- 40.	Select employees who do not belong to any department.
-    SELECT EMP_ID, FIRST_NAME||' '||LAST_NAME AS FULL_NAME, DEPARTMENT
-    FROM EMPLOYEES WHERE DEPARTMENT NOT IN ('Finance','Marketing');
+-- 39. Employees who made at least one order
+SELECT DISTINCT e.emp_id, e.first_name || ' ' || e.last_name AS full_name
+FROM employees e
+WHERE e.emp_id IN (SELECT emp_id FROM orders);
 
--- 9. String Functions
-    -- 41.	Select upper-case version of employee names.
-    SELECT UPPER(FIRST_NAME||' '||LAST_NAME) AS FULL_NAME FROM EMPLOYEES;
+-- 40. Employees not in Finance or Marketing
+SELECT emp_id, first_name || ' ' || last_name AS full_name, department
+FROM employees
+WHERE department NOT IN ('Finance','Marketing');
 
-    -- 42.	Select first 3 letters of each customer name.
-    SELECT UPPER(SUBSTR(FIRST_NAME,3)) FROM EMPLOYEES;
+-- 9️⃣ String Functions
+-- 41. Uppercase names
+SELECT UPPER(first_name || ' ' || last_name) AS full_name FROM employees;
 
-    -- 43.	Concatenate first_name and last_name of employees.
-    SELECT FIRST_NAME||' '||LAST_NAME FROM EMPLOYEES;
+-- 42. First 3 letters of first name
+SELECT SUBSTR(first_name, 1, 3) AS short_name FROM employees;
 
-    -- 44.	Select customers where email contains 'gmail'.
-    SELECT FIRST_NAME FROM EMPLOYEES WHERE EMAIL IS NOT NULL;
+-- 43. Concatenate first + last name
+SELECT first_name || ' ' || last_name AS full_name FROM employees;
 
-    -- 45.	Replace 'old' with 'new' in product description.
-    SELECT REPLACE(department, 'Finance', 'Computer Science') AS department
-    FROM employees;
+-- 44. Employees with Gmail accounts
+SELECT first_name || ' ' || last_name AS full_name 
+FROM employees 
+WHERE email LIKE '%gmail%';
 
--- 10. Date Functions
--- 46.	Select current date.
-SELECT SYSDATE FROM DUAL;
+-- 45. Replace 'Finance' with 'Computer Science'
+SELECT REPLACE(department,'Finance','Computer Science') AS new_department
+FROM employees;
 
--- 47.	Select orders placed in last 7 days.
+-- 🔟 Date Functions
+-- 46. Current date
+SELECT SYSDATE FROM dual;
+
+-- 47. Orders placed in last 7 days
 SELECT * 
 FROM orders 
-WHERE order_date < SYSDATE - 750;
+WHERE order_date >= SYSDATE - 7;
 
--- 48.	Extract year from order_date.
-SELECT EXTRACT(YEAR FROM SYSDATE) AS CURRENT_YEAR FROM DUAL;
-SELECT TO_CHAR(SYSDATE,'YYYY') AS CURRENT_YEAR FROM DUAL;
+-- 48. Extract year from system date
+SELECT EXTRACT(YEAR FROM SYSDATE) AS current_year FROM dual;
 
--- 49.	Find employees who joined in year 2022.
-SELECT FIRST_NAME||' '||LAST_NAME AS FULL_NAME,JOINING_DATE FROM EMPLOYEES  WHERE EXTRACT(YEAR FROM joining_date) = 2022;
+-- 49. Employees joined in 2022
+SELECT first_name || ' ' || last_name AS full_name, joining_date
+FROM employees
+WHERE EXTRACT(YEAR FROM joining_date) = 2022;
 
--- 50.	Calculate how many day join in my company of employees.
+-- 50. Calculate total work experience (years & months)
 SELECT first_name || ' ' || last_name AS full_name,
        joining_date,
        TRUNC(MONTHS_BETWEEN(SYSDATE, joining_date) / 12) || ' years ' ||
        MOD(TRUNC(MONTHS_BETWEEN(SYSDATE, joining_date)), 12) || ' months' 
        AS total_experience
 FROM employees;
-
-
